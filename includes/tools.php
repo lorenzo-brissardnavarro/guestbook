@@ -145,5 +145,24 @@ function get_information_user($pdo, $id){
 }
 
 
+// Fonction pour enregistrer le message dans la BDD
+function add_message($pdo, $message, $user_id, $date){
+    $sql = "INSERT INTO message (message, user_id, date) VALUES (:message, :user_id, :date)";
+    $query = $pdo->prepare($sql);
+    $query->execute([':message' => $message, ':user_id' => $user_id, ':date' => $date]);
+    return true;
+}
+
+
+// Processus d'appel pour vérification message
+function message_process($pdo, $post, $message, $user_id, $date){
+    if (empty_fields($post, ["message"])) {
+        return "Veuillez remplir l'ensemble des champs.";
+    } elseif(strlen($message) > 450){
+        return "Le message ne doit pas dépasser 450 caractères";
+    }
+    return add_message($pdo, $message, $user_id, $date);
+}
+
 
 ?>
