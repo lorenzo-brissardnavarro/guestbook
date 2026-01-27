@@ -18,29 +18,30 @@ if (!empty($_POST['delete_id'])) {
 }
 
 
-$number_messages = count_message($pdo);
-
-// Déterminer page actuelle
-if(isset($_GET['page']) && !empty($_GET['page'])){
+$perPage = 12;
+if(isset($_GET['page'])){
     $currentPage = (int)$_GET['page'];
-}else{
+} else {
     $currentPage = 1;
 }
 if ($currentPage < 1){
     $currentPage = 1;
-} elseif ($currentPage > $pages) {
-    $currentPage = $pages;
 }
-
-// On détermine le nombre de messages par page
-$perPage = 12;
-
-// On calcule le nombre de pages au total
-$pages = ceil($number_messages / $perPage);
-
 $first = $perPage * ($currentPage - 1);
-$messages = get_all($pdo, $first, $perPage);
+if (!empty($_GET['search'])) {
+    $search = trim($_GET['search']);
+    $messages = search_messages($pdo, $search, $perPage, $first);
+    $number_messages = count_search_messages($pdo, $search);
+    $pages = ceil($number_messages / $perPage);
 
+} else {
+    $number_messages = count_message($pdo);
+    $pages = ceil($number_messages / $perPage);
+    if ($currentPage > $pages) {
+        $currentPage = $pages;
+    }
+    $messages = get_all($pdo, $first, $perPage);
+}
 
 
 
@@ -48,6 +49,12 @@ $messages = get_all($pdo, $first, $perPage);
 
 <main>
     <h2>Livre d’or du restaurant</h2>
+    <section class="search">
+        <form action="" method="GET">
+            <input type="search" name="search" placeholder="Mots-clés" value="<?php if(!empty($_GET['search'])){echo htmlspecialchars($_GET['search'])}; ?>">
+            <input type="submit" value="Rechercher">
+        </form>
+    </section>
     <section class="messages">
     <?php
         foreach ($messages as $message) {
@@ -73,26 +80,33 @@ $messages = get_all($pdo, $first, $perPage);
         }
     ?>
     </section>
+    <?php
+    if(!empty($_GET['search'])){
+        $searchParam = '&search=' . urlencode($_GET['search']);
+    }
+    ?>
     <nav>
         <ul class="pagination">
             <?php 
             if($currentPage > 1){
                 echo '<li class="page-item">
-                    <a href="./?page=' . ($currentPage - 1) . '" class="page-link">Précédente</a>
+                    <a href="./?page=' . ($currentPage - 1) . $searchParam . '" class="page-link">Précédente</a>
                     </li>';
             }
             ?>
+
             <?php
             for($page = 1; $page <= $pages; $page++){
                 echo '<li class="page-item">
-                    <a href="./?page=' . $page . '" class="page-link">' . $page . '</a>
+                    <a href="./?page=' . $page . $searchParam . '" class="page-link">' . $page . '</a>
                     </li>';
             }
             ?>
+
             <?php 
             if($currentPage < $pages){
                 echo '<li class="page-item">
-                    <a href="./?page=' . ($currentPage + 1) . '" class="page-link">Suivante</a>
+                    <a href="./?page=' . ($currentPage + 1) . $searchParam . '" class="page-link">Suivante</a>
                     </li>';
             }
             ?>

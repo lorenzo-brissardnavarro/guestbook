@@ -197,12 +197,14 @@ function edit_message($pdo, $id, $message, $date, $id_user){
 
 
 // Fonction pour récupérer toutes les infos de chaque message
-function get_all($pdo, $first, $per_page){
-    $sql = "SELECT message.id, message.message, message.date, message.id_user, user.login FROM message INNER JOIN user ON user.id = message.id_user ORDER BY message.date DESC
-    LIMIT $per_page OFFSET $first";
-    $query = $pdo->prepare($sql);
-    $query->execute();
-    return $query->fetchAll(PDO::FETCH_ASSOC);
+function get_all($pdo, $offset, $limit){
+    $sql = "SELECT message.id, message.message, message.date, message.id_user, user.login FROM message INNER JOIN user ON user.id = message.id_user
+            ORDER BY message.date DESC LIMIT :limit OFFSET :offset";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 
@@ -215,5 +217,31 @@ function count_message($pdo){
     $nbArticles = (int) $result['nb_messages'];
     return $nbArticles;
 }
+
+
+// Récup des messages en fonction de la barre de recherche
+function search_messages($pdo, $search, $limit, $offset) {
+    $sql = "SELECT message.id, message.message, message.date, user.login FROM message INNER JOIN user ON user.id = message.id_user
+            WHERE user.login LIKE :search OR message.message LIKE :search ORDER BY message.date DESC LIMIT :limit OFFSET :offset";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+// Fonction pour compter le nombre de messages en fonction de la recherche
+function count_search_messages($pdo, $search){
+    $sql = 'SELECT COUNT(*) AS nb_messages FROM message INNER JOIN user ON user.id = message.id_user WHERE user.login LIKE :search OR message.message LIKE :search';
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+    $stmt->execute();
+    $result = $stmt->fetch();
+    $nbArticles = (int) $result['nb_messages'];
+    return $nbArticles;
+}
+
 
 ?>

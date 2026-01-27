@@ -32,10 +32,6 @@
                     <a href="connexion.php">Connexion</a>';
                 }
                 ?>
-                <form action="" method="POST">
-                    <input type="search" name="search" placeholder="Mots-clés" value="<?php if(!empty($_POST['search'])){echo htmlspecialchars($_POST['search'])}; ?>">
-                    <input type="submit" value="Rechercher">
-                </form>
             </nav>
         </div>
     </header>
