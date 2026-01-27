@@ -145,6 +145,15 @@ function get_information_user($pdo, $id){
 }
 
 
+// Récupération informations message par ID
+function get_information_message($pdo, $id, $id_user){
+    $sql = "SELECT message FROM message WHERE id = :id AND id_user = :id_user";
+    $query = $pdo->prepare($sql);
+    $query->execute([':id' => $id, ':id_user' => $id_user]);
+    return $query->fetch(PDO::FETCH_ASSOC);
+}
+
+
 // Fonction pour enregistrer le message dans la BDD
 function add_message($pdo, $message, $id_user, $date){
     $sql = "INSERT INTO message (message, id_user, date) VALUES (:message, :id_user, :date)";
@@ -178,11 +187,11 @@ function message_deletion($pdo, $id, $id_user){
 function edit_message($pdo, $id, $message, $date, $id_user){
     if(strlen($message) > 450){
         return "Le message ne doit pas dépasser 450 caractères";
+    }
     $sql = "UPDATE message SET message = :message, date = :date WHERE id = :id AND id_user = :id_user";
     $query = $pdo->prepare($sql);
     $query->execute([':message' => $message, ':date' => $date, ':id' => $id, ':id_user' => $id_user]);
     return true;
-    }
 }
 
 
@@ -200,7 +209,7 @@ function get_all($pdo, $first, $per_page){
 // Fonction pour compter le nombre total de messages
 function count_message($pdo){
     $sql = 'SELECT COUNT(*) AS nb_messages FROM message;';
-    $query = $db->prepare($sql);
+    $query = $pdo->prepare($sql);
     $query->execute();
     $result = $query->fetch();
     $nbArticles = (int) $result['nb_messages'];

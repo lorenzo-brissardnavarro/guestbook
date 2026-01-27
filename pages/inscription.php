@@ -1,6 +1,5 @@
 
 <?php
-$pageStyle = 'inscription.css';
 include '../includes/config.php';
 include '../includes/header.php';
 include '../includes/tools.php';
@@ -22,7 +21,6 @@ if (!empty($_POST)) {
 ?>
 
 <main>
-    <h1>Page d'inscription</h1>
     <?php 
         if (!empty($error)){
             echo '<p>' . $error .  '</p>';

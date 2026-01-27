@@ -1,6 +1,5 @@
 
 <?php
-$pageStyle = 'messages.css';
 include '../includes/config.php';
 include '../includes/header.php';
 include '../includes/tools.php';
