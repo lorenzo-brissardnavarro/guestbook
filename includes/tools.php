@@ -146,23 +146,65 @@ function get_information_user($pdo, $id){
 
 
 // Fonction pour enregistrer le message dans la BDD
-function add_message($pdo, $message, $user_id, $date){
-    $sql = "INSERT INTO message (message, user_id, date) VALUES (:message, :user_id, :date)";
+function add_message($pdo, $message, $id_user, $date){
+    $sql = "INSERT INTO message (message, id_user, date) VALUES (:message, :id_user, :date)";
     $query = $pdo->prepare($sql);
-    $query->execute([':message' => $message, ':user_id' => $user_id, ':date' => $date]);
+    $query->execute([':message' => $message, ':id_user' => $id_user, ':date' => $date]);
     return true;
 }
 
 
 // Processus d'appel pour vérification message
-function message_process($pdo, $post, $message, $user_id, $date){
+function message_process($pdo, $post, $message, $id_user, $date){
     if (empty_fields($post, ["message"])) {
         return "Veuillez remplir l'ensemble des champs.";
     } elseif(strlen($message) > 450){
         return "Le message ne doit pas dépasser 450 caractères";
     }
-    return add_message($pdo, $message, $user_id, $date);
+    return add_message($pdo, $message, $id_user, $date);
 }
 
+
+// Fonction supprimer message
+function message_deletion($pdo, $id, $id_user){
+    $sql = "DELETE FROM message WHERE id = :id AND id_user = :id_user";
+    $query = $pdo->prepare($sql);
+    $query->execute([':id' => $id, ':id_user' => $id_user]);
+    return true;
+}
+
+
+// Fonction modification message
+function edit_message($pdo, $id, $message, $date, $id_user){
+    if(strlen($message) > 450){
+        return "Le message ne doit pas dépasser 450 caractères";
+    $sql = "UPDATE message SET message = :message, date = :date WHERE id = :id AND id_user = :id_user";
+    $query = $pdo->prepare($sql);
+    $query->execute([':message' => $message, ':date' => $date, ':id' => $id, ':id_user' => $id_user]);
+    return true;
+    }
+}
+
+
+
+// Fonction pour récupérer toutes les infos de chaque message
+function get_all($pdo, $first, $per_page){
+    $sql = "SELECT message.id, message.message, message.date, message.id_user, user.login FROM message INNER JOIN user ON user.id = message.id_user ORDER BY message.date DESC
+    LIMIT $per_page OFFSET $first";
+    $query = $pdo->prepare($sql);
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+// Fonction pour compter le nombre total de messages
+function count_message($pdo){
+    $sql = 'SELECT COUNT(*) AS nb_messages FROM message;';
+    $query = $db->prepare($sql);
+    $query->execute();
+    $result = $query->fetch();
+    $nbArticles = (int) $result['nb_messages'];
+    return $nbArticles;
+}
 
 ?>
