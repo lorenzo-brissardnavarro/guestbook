@@ -221,7 +221,7 @@ function count_message($pdo){
 
 // Récup des messages en fonction de la barre de recherche
 function search_messages($pdo, $search, $limit, $offset) {
-    $sql = "SELECT message.id, message.message, message.date, user.login FROM message INNER JOIN user ON user.id = message.id_user
+    $sql = "SELECT message.id, message.message, message.date, message.id_user, user.login FROM message INNER JOIN user ON user.id = message.id_user
             WHERE user.login LIKE :search OR message.message LIKE :search ORDER BY message.date DESC LIMIT :limit OFFSET :offset";
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);

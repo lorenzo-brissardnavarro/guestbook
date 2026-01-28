@@ -18,7 +18,7 @@ if (!empty($_POST['delete_id'])) {
 }
 
 
-$perPage = 12;
+$perPage = 9;
 if(isset($_GET['page'])){
     $currentPage = (int)$_GET['page'];
 } else {
@@ -48,23 +48,28 @@ if (!empty($_GET['search'])) {
 ?>
 
 <main>
-    <h2>Livre d’or du restaurant</h2>
-    <section class="search">
-        <form action="" method="GET">
-            <input type="search" name="search" placeholder="Mots-clés" value="<?php if(!empty($_GET['search'])){echo htmlspecialchars($_GET['search'])}; ?>">
-            <input type="submit" value="Rechercher">
-        </form>
+    <section class="guestbook-search">
+        <h2>Livre d’or du restaurant</h2>
+        <section class="search">
+            <form action="" method="GET">
+                <input type="search" name="search" placeholder="Mots-clés">
+                <input type="submit" value="Rechercher">
+            </form>
+        </section>
     </section>
     <section class="messages">
     <?php
         foreach ($messages as $message) {
+            $date=date_create_from_format("Y-m-d H:i:s", htmlspecialchars($message['date']));
             echo '
             <article class="message">
-                <p class="meta">Posté par ' . htmlspecialchars($message['login']) . ' le ' . htmlspecialchars($message['date']) . '</p>
-                <p class="content">' . htmlspecialchars($message['message']) . '</p>';
+                <div>
+                    <p class="meta">Posté par ' . htmlspecialchars($message['login']) . ' le ' . date_format($date,'j-M-Y') . '</p>
+                    <p class="content">' . htmlspecialchars($message['message']) . '</p>
+                </div>';
                 if(isset($_SESSION['id']) && $_SESSION['id'] === $message['id_user']){
                     echo '
-                    <div>
+                    <div class="options-container">
                         <a href="modification.php?id=' . $message['id'] . '">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
@@ -83,14 +88,16 @@ if (!empty($_GET['search'])) {
     <?php
     if(!empty($_GET['search'])){
         $searchParam = '&search=' . urlencode($_GET['search']);
+    } else{
+        $searchParam = '';
     }
     ?>
-    <nav>
+    <nav class="nav-pagination">
         <ul class="pagination">
             <?php 
             if($currentPage > 1){
                 echo '<li class="page-item">
-                    <a href="./?page=' . ($currentPage - 1) . $searchParam . '" class="page-link">Précédente</a>
+                    <a href="http://localhost/WEB/Annee1/Guestbook/pages/guestbook.php/?page=' . ($currentPage - 1) . $searchParam . '" class="page-link">Précédente</a>
                     </li>';
             }
             ?>
@@ -98,7 +105,7 @@ if (!empty($_GET['search'])) {
             <?php
             for($page = 1; $page <= $pages; $page++){
                 echo '<li class="page-item">
-                    <a href="./?page=' . $page . $searchParam . '" class="page-link">' . $page . '</a>
+                    <a href="http://localhost/WEB/Annee1/Guestbook/pages/guestbook.php/?page=' . $page . $searchParam . '" class="page-link">' . $page . '</a>
                     </li>';
             }
             ?>
@@ -106,10 +113,12 @@ if (!empty($_GET['search'])) {
             <?php 
             if($currentPage < $pages){
                 echo '<li class="page-item">
-                    <a href="./?page=' . ($currentPage + 1) . $searchParam . '" class="page-link">Suivante</a>
+                    <a href="http://localhost/WEB/Annee1/Guestbook/pages/guestbook.php/?page=' . ($currentPage + 1) . $searchParam . '" class="page-link">Suivante</a>
                     </li>';
             }
             ?>
         </ul>
     </nav>
 </main>
+
+<?php include '../includes/footer.php'; ?>

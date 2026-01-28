@@ -18,7 +18,7 @@ if (!$values) {
 
 $error = "";
 if (!empty($_POST) && !empty($_POST["message"])) {
-    if (edit_message($pdo, $id, $_POST['message'], date('Y-m-d'), $_SESSION['id'])) {
+    if (edit_message($pdo, $id, $_POST['message'], date("Y-m-d H:i:s"), $_SESSION['id'])) {
         header('Location: guestbook.php');
         exit;
     }
@@ -28,17 +28,19 @@ if (!empty($_POST) && !empty($_POST["message"])) {
 
 
 <main>
-    <h2>Modifier votre message</h2>
-    <?php 
-    if (!empty($error)){
-        echo '<p>' . htmlspecialchars($error) .  '</p>';
-    }
-    ?>
-    <form method="POST" action="">
-        <label for="message">Votre nouveau message</label>
-        <input type="text" id="message" name="message" maxlength="450" value="<?php echo htmlspecialchars($values['message']); ?>">
-        <input type="submit" value="Publier mon message">
-    </form>
+    <section class="container-form">
+        <h2>Modifier votre message</h2>
+        <?php 
+        if (!empty($error)){
+            echo '<p class="form-error">' . htmlspecialchars($error) .  '</p>';
+        }
+        ?>
+        <form method="POST" action="">
+            <label for="message">Votre nouveau message</label>
+            <textarea type="text" id="message" name="message" maxlength="450" rows="5" cols="33"><?php echo htmlspecialchars($values['message']); ?></textarea>
+            <input type="submit" value="Republier mon message">
+        </form>
+    </section>
 </main>
 
 

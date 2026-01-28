@@ -21,20 +21,22 @@ if (!empty($_POST)) {
 ?>
 
 <main>
-    <?php 
+    <section class="container-form">
+        <?php 
         if (!empty($error)){
-            echo '<p>' . $error .  '</p>';
+            echo '<p class="form-error">' . $error .  '</p>';
         }
-    ?>
-    <form action="" method="POST">
-        <label for="login">Login</label>
-        <input type="text" name="login" id="login" placeholder="Votre identifiant">
-        <label for="password">Mot de passe</label>
-        <input type="password" name="password" id="password" placeholder="Min. 6 caractères">
-        <label for="confirm_password">Confirmer le mot de passe</label>
-        <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirmez votre mot de passe">
-        <input type="submit" value="S'inscrire">
-    </form>
+        ?>
+        <form action="" method="POST">
+            <label for="login">Login</label>
+            <input type="text" name="login" id="login" placeholder="Votre identifiant">
+            <label for="password">Mot de passe</label>
+            <input type="password" name="password" id="password" placeholder="Min. 6 caractères">
+            <label for="confirm_password">Confirmer le mot de passe</label>
+            <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirmez votre mot de passe">
+            <input type="submit" value="S'inscrire">
+        </form>
+    </section>
 </main>
 
 
