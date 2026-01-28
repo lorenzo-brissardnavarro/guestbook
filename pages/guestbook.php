@@ -51,7 +51,7 @@ if (!empty($_GET['search'])) {
     <section class="guestbook-search">
         <h2>Livre d’or du restaurant</h2>
         <section class="search">
-            <form action="" method="GET">
+            <form action="guestbook.php" method="GET">
                 <input type="search" name="search" placeholder="Mots-clés">
                 <input type="submit" value="Rechercher">
             </form>
@@ -97,7 +97,7 @@ if (!empty($_GET['search'])) {
             <?php 
             if($currentPage > 1){
                 echo '<li class="page-item">
-                    <a href="http://localhost/WEB/Annee1/Guestbook/pages/guestbook.php/?page=' . ($currentPage - 1) . $searchParam . '" class="page-link">Précédente</a>
+                    <a href="?page=' . ($currentPage - 1) . $searchParam . '" class="page-link">Précédente</a>
                     </li>';
             }
             ?>
@@ -105,7 +105,7 @@ if (!empty($_GET['search'])) {
             <?php
             for($page = 1; $page <= $pages; $page++){
                 echo '<li class="page-item">
-                    <a href="http://localhost/WEB/Annee1/Guestbook/pages/guestbook.php/?page=' . $page . $searchParam . '" class="page-link">' . $page . '</a>
+                    <a href="?page=' . $page . $searchParam . '" class="page-link">' . $page . '</a>
                     </li>';
             }
             ?>
@@ -113,7 +113,7 @@ if (!empty($_GET['search'])) {
             <?php 
             if($currentPage < $pages){
                 echo '<li class="page-item">
-                    <a href="http://localhost/WEB/Annee1/Guestbook/pages/guestbook.php/?page=' . ($currentPage + 1) . $searchParam . '" class="page-link">Suivante</a>
+                    <a href="?page=' . ($currentPage + 1) . $searchParam . '" class="page-link">Suivante</a>
                     </li>';
             }
             ?>

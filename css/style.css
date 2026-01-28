@@ -150,15 +150,6 @@ h2::after {
    FORMULAIRES
 ================================================== */
 
-/* form {
-  background-color: #fff;
-  border-radius: 6px;
-  padding: 1.5rem;
-  max-width: 450px;
-  margin: auto;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-} */
-
 .container-form{
   background-color: #fff;
   border-radius: 6px;
@@ -216,6 +207,23 @@ input[type="submit"]:hover {
   background-color: #5f1616;
 }
 
+.auth-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.footer-link {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.footer-link a {
+    color: #7b1e1e;
+    text-decoration: none;
+    font-weight: 600;
+}
+
 /* ==================================================
    LIVRE D’OR
 ================================================== */
@@ -270,7 +278,11 @@ input{
 .fa-pen-to-square{
   font-size: 1.2em;
 }
-  
+
+.fa-trash-alt:hover,
+.fa-pen-to-square:hover{
+  color: #7b1e1e;
+}
 
 
 

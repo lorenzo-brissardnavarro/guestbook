@@ -27,6 +27,11 @@ $information = get_information_user($pdo, $_SESSION['id']);
 
 <main>
     <section class="container-form">
+        <article class="auth-header">
+            <i class="auth-icon fa-solid fa-user-pen"></i>
+            <h1 class="title-profile">Mon Profil</h1>
+            <p class="subtitle">Gérez vos informations personnelles</p>
+        </article>
         <?php 
         if (!empty($error)){
             echo '<p class="form-error">' . $error .  '</p>';
