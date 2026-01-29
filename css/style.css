@@ -42,7 +42,7 @@ header {
   gap: 2em;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1200px) {
   .header-container {
     flex-direction: row;
   }
@@ -72,6 +72,8 @@ nav {
   display: flex;
   gap: 1.2rem;
   flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
 }
 
 nav a {
@@ -216,6 +218,8 @@ input[type="submit"]:hover {
     margin-top: 18px;
     text-align: center;
     font-size: 14px;
+    display: flex;
+    flex-direction: column;
 }
 
 .footer-link a {
@@ -228,21 +232,37 @@ input[type="submit"]:hover {
    LIVRE D’OR
 ================================================== */
 
-.guestbook-search{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+
+@media (min-width: 500px) {
+  .search form{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    border-radius: 6px;
+    padding: 1rem;
+    background: none;
+    box-shadow: none;
+  }
+  .search input[type="submit"]{
+    width: 30%;
+  }
+  .footer-link{
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+  }
 }
 
-.search form{
-  display: flex;
-  align-items: center;
-  justify-content: end;
-  border-radius: 6px;
-  padding: 1rem;
-  background: none;
-  box-shadow: none;
-  width: 25em;
+@media (min-width: 768px) {
+  .guestbook-search{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .search{
+    width: 50%;
+  }
 }
 
 .search input[type="submit"],
@@ -251,9 +271,7 @@ input{
   padding: 0.6rem;
 }
 
-.search input[type="submit"]{
-  width: 30%;
-}
+
     
 
 .options-container{
@@ -290,12 +308,19 @@ input{
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
+  margin-top: 2em;
 }
 
 /* tablette */
 @media (min-width: 600px) {
   .messages {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 770px){
+  nav{
+    flex-direction: row;
   }
 }
 
@@ -327,6 +352,12 @@ input{
   font-size: 0.95rem;
   margin-bottom: 1rem;
   text-align: justify;
+}
+
+.news-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 /* ==================================================

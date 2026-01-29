@@ -24,7 +24,7 @@ if (isset($_POST["message_id"]) && isset($_SESSION['id'])) {
     if (isset($_POST['like'])) {
         add_like($pdo, $user_id, $message_id);
     } elseif (isset($_POST['unlike'])) {
-        remove_like($pdo, $user_id, $message_id);
+        like_deletion($pdo, $user_id, $message_id);
     }
     header("Location: guestbook.php" . (!empty($_GET['search']) ? "?search=" . urlencode($_GET['search']) : ""));
     exit;
@@ -86,22 +86,8 @@ if (!empty($_GET['search'])) {
                     <p class="meta">Posté par ' . htmlspecialchars($message['login']) . ' le ' . date_format($date,'j-M-Y') . '</p>
                     <p class="content">' . htmlspecialchars($message['message']) . '</p>
                 </div>
-                <div class="options-container">';
-                if(isset($_SESSION['id']) && $_SESSION['id'] === $message['id_user']){
-                    echo '
-                    <div class="options-container">
-                        <a href="modification.php?id=' . $message['id'] . '">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                        <form method="POST" action="">
-                            <input type="hidden" name="delete_id" value="' . htmlspecialchars($message['id']) . '">
-                            <button type="submit">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </form>
-                    </div>';
-                }
-                if(isset($_SESSION['id'])){
+                <div class="news-container">';
+                    if(isset($_SESSION['id'])){
                     echo '<form method="POST" action="">
                             <input type="hidden" name="message_id" value="' . $message['id'] . '">';
                     if($liked){
@@ -119,8 +105,23 @@ if (!empty($_GET['search'])) {
                             <i class="fa-solid fa-heart"></i> ' . $likes_count . '
                         </span>';
                 }
-
+                echo '<div class="options-container">';
+                if(isset($_SESSION['id']) && $_SESSION['id'] === $message['id_user']){
+                    echo '
+                    <div class="options-container">
+                        <a href="modification.php?id=' . $message['id'] . '">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <form method="POST" action="">
+                            <input type="hidden" name="delete_id" value="' . htmlspecialchars($message['id']) . '">
+                            <button type="submit">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </div>';
+                }
                 echo '</div>
+                </div>
             </article>';
         }
     ?>

@@ -28,7 +28,7 @@ if (!empty($_POST)) {
 <main>
     <section class="container-form">
         <article class="auth-header">
-            <h1 class="title-profile">Ajoutez un message</h1>
+            <h1 class="title-profile">Commentaire</h1>
             <p class="subtitle">Laissez votre avis personnel</p>
         </article>
         <?php 
