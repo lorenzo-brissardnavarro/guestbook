@@ -13,25 +13,27 @@
 <body>
     <header>
         <div class="header-container">
-            <div class="logo">
-                <img src="../images/logo.png" alt="Logo du restaurant">
-                <span>Le Bistrot Français</span>
-            </div>
+            <a href="accueil.php">
+                <div class="logo">
+                    <img src="../images/logo.png" alt="Logo du restaurant">
+                    <span>Le Bistrot Français</span>
+                </div>
+            </a>
             <nav>
-            <a href="accueil.php">Accueil</a>
-            <a href="guestbook.php">Livre d’or</a>
-            <?php
-            if(!empty($_SESSION['id'])){
-                echo '
-                <a href="profil.php">Profil</a>
-                <a href="messages.php">Ajouter un message</a>
-                <a href="deconnexion.php">Deconnexion</a>';
-            } else{
-                echo '
-                <a href="inscription.php">Inscription</a>
-                <a href="connexion.php">Connexion</a>';
-            }
-            ?>
+                <a href="accueil.php">Accueil</a>
+                <a href="guestbook.php">Livre d’or</a>
+                <?php
+                if(!empty($_SESSION['id'])){
+                    echo '
+                    <a href="profil.php">Profil</a>
+                    <a href="messages.php">Ajouter un message</a>
+                    <a href="deconnexion.php">Deconnexion</a>';
+                } else{
+                    echo '
+                    <a href="inscription.php">Inscription</a>
+                    <a href="connexion.php">Connexion</a>';
+                }
+                ?>
             </nav>
         </div>
     </header>
