@@ -26,7 +26,11 @@ if (isset($_POST["message_id"]) && isset($_SESSION['id'])) {
     } elseif (isset($_POST['unlike'])) {
         like_deletion($pdo, $user_id, $message_id);
     }
-    header("Location: guestbook.php" . (!empty($_GET['search']) ? "?search=" . urlencode($_GET['search']) : ""));
+    if (!empty($_GET['search'])) {
+        header("Location: guestbook.php?search=" . urlencode($_GET['search']));
+    } else {
+        header("Location: guestbook.php");
+    }
     exit;
 }
 
